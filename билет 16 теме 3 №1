@@ -1,0 +1,60 @@
+#include <iostream>
+#include <cmath>
+
+// Define the function to integrate
+double f(double x) {
+    return x * x * x * x / (16 + x * x);
+}
+
+// Rectangle method
+double rectangleMethod(double (*f)(double), double a, double b, int n) {
+    double h = (b - a) / n;
+    double result = 0;
+    for (int i = 0; i < n; ++i) {
+        result += f(a + i * h);
+    }
+    return result * h;
+}
+
+// Trapezoid method
+double trapezoidMethod(double (*f)(double), double a, double b, int n) {
+    double h = (b - a) / n;
+    double result = (f(a) + f(b)) / 2;
+    for (int i = 1; i < n; ++i) {
+        result += f(a + i * h);
+    }
+    return result * h;
+}
+
+// Simpson's method
+double simpsonsMethod(double (*f)(double), double a, double b, int n) {
+    if (n % 2 != 0) {
+        n += 1;  // Simpson's method requires an even number of intervals
+    }
+    double h = (b - a) / n;
+    double result = f(a) + f(b);
+    for (int i = 1; i < n; ++i) {
+        if (i % 2 == 0) {
+            result += 2 * f(a + i * h);
+        } else {
+            result += 4 * f(a + i * h);
+        }
+    }
+    return result * h / 3;
+}
+
+int main() {
+    double a = 1, b = 2;
+    int n = 1000;  // Number of intervals
+
+    // Calculate the integral using different methods
+    double rect_result = rectangleMethod(f, a, b, n);
+    double trap_result = trapezoidMethod(f, a, b, n);
+    double simp_result = simpsonsMethod(f, a, b, n);
+
+    std::cout << "Rectangle method result: " << rect_result << std::endl;
+    std::cout << "Trapezoid method result: " << trap_result << std::endl;
+    std::cout << "Simpson's method result: " << simp_result << std::endl;
+
+    return 0;
+}
