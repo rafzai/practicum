@@ -1,0 +1,30 @@
+#include <iostream>
+#include <cmath>
+
+// Define the function to integrate
+double g(double x) {
+    return exp(-2 * x) * sin(16 * x);
+}
+
+// Trapezoid method for improper integrals
+double trapezoidMethod(double (*g)(double), double a, double b, int n) {
+    double h = (b - a) / n;
+    double result = (g(a) + g(b)) / 2;
+    for (int i = 1; i < n; ++i) {
+        result += g(a + i * h);
+    }
+    return result * h;
+}
+
+int main() {
+    double a = 0;
+    double b = 100;  // Using a large number to approximate infinity
+    int n = 100000;  // Number of intervals
+
+    // Calculate the integral using the trapezoid method
+    double result = trapezoidMethod(g, a, b, n);
+
+    std::cout << "Result of the integral: " << result << std::endl;
+
+    return 0;
+}
