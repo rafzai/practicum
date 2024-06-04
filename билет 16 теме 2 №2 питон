@@ -1,0 +1,47 @@
+# Function to calculate distance from a point to a plane
+def distance_point_to_plane(a, b, c, d, x0, y0, z0):
+    return abs(a * x0 + b * y0 + c * z0 + d) / np.sqrt(a**2 + b**2 + c**2)
+
+# Function to find the angle between two planes
+def angle_between_planes(a1, b1, c1, a2, b2, c2):
+    return np.arccos((a1 * a2 + b1 * b2 + c1 * c2) / 
+                     (np.sqrt(a1**2 + b1**2 + c1**2) * np.sqrt(a2**2 + b2**2 + c2**2)))
+
+# Randomly generated parameters for planes and point
+a1, b1, c1, d1 = 1, 2, -1, 3  # Plane 1: x + 2y - z + 3 = 0
+a2, b2, c2, d2 = -1, 1, 1, -1  # Plane 2: -x + y + z - 1 = 0
+x0, y0, z0 = 1, -2, 3  # Point (1, -2, 3)
+
+# Distance from the point to each plane
+dist1 = distance_point_to_plane(a1, b1, c1, d1, x0, y0, z0)
+dist2 = distance_point_to_plane(a2, b2, c2, d2, x0, y0, z0)
+
+# Angle between the two planes
+angle = angle_between_planes(a1, b1, c1, a2, b2, c2)
+
+# Check if the planes are parallel
+parallel = np.isclose(a1*b2 - a2*b1, 0) and np.isclose(a1*c2 - a2*c1, 0)
+
+# Distance between parallel planes
+if parallel:
+    dist_between_planes = abs(d1 - d2) / np.sqrt(a1**2 + b1**2 + c1**2)
+    intersection_line = None
+else:
+    # Finding the line of intersection: We can solve using cross product of normal vectors
+    n1 = np.array([a1, b1, c1])
+    n2 = np.array([a2, b2, c2])
+    line_direction = np.cross(n1, n2)
+    # To find a specific point on the line of intersection, we can solve the system of equations
+    # using a parameterization approach or setting z = 0 and solving the 2D problem.
+    A = np.array([[a1, b1], [a2, b2]])
+    B = np.array([-d1, -d2])
+    point_on_line = np.linalg.solve(A, B)
+    intersection_line = (line_direction, point_on_line)
+
+print(f"Distance from point to plane 1: {dist1}")
+print(f"Distance from point to plane 2: {dist2}")
+print(f"Angle between the planes: {np.degrees(angle)} degrees")
+if parallel:
+    print(f"The planes are parallel. Distance between them: {dist_between_planes}")
+else:
+    print(f"The planes intersect along the line with direction vector {intersection_line[0]} passing through {intersection_line[1]}")
