@@ -1,0 +1,31 @@
+import cmath
+
+# Define the complex numbers
+z1 = 1 + 1j
+z2 = 1 + 2j
+z3 = 1 + 1j
+
+# Calculate the sum
+sum_z = z1 + z2
+
+# Calculate the difference
+diff_z = z1 - z2
+
+# Calculate the product
+prod_z = z1 * z2
+
+# Calculate the quotient
+quot_z = z1 / z2
+
+# Calculate the fourth power of z3
+fourth_power_z3 = z3 ** 4
+
+# Calculate the cube root of z3
+cube_root_z3 = z3 ** (1/3)
+
+print(f"Sum: {sum_z}")
+print(f"Difference: {diff_z}")
+print(f"Product: {prod_z}")
+print(f"Quotient: {quot_z}")
+print(f"Fourth power of z3: {fourth_power_z3}")
+print(f"Cube root of z3: {cube_root_z3}")
