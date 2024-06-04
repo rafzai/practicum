@@ -1,0 +1,27 @@
+import numpy as np
+
+# Given data points
+x = np.array([0.1 * np.pi, 0.2 * np.pi, 0.3 * np.pi, 0.4 * np.pi])
+y = np.sin(x)
+
+# Lagrange interpolation polynomial function
+def lagrange_interpolation(xi, yi, x):
+    n = len(xi)
+    L = np.zeros_like(x)
+    for i in range(n):
+        li = np.ones_like(x)
+        for j in range(n):
+            if i != j:
+                li *= (x - xi[j]) / (xi[i] - xi[j])
+        L += yi[i] * li
+    return L
+
+# Evaluate the interpolation polynomial at x* = 0.25π
+x_star = 0.25 * np.pi
+y_star = lagrange_interpolation(x, y, x_star)
+actual_value = np.sin(x_star)
+error = actual_value - y_star
+
+print(f"Interpolated value at x* = {x_star}: {y_star}")
+print(f"Actual value at x* = {x_star}: {actual_value}")
+print(f"Interpolation error Δy(x*) = {error}")
