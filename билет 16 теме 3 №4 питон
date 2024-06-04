@@ -1,0 +1,17 @@
+import numpy as np
+
+def functional_series_sum(x, epsilon=1e-6):
+    k = 1
+    total_sum = 0
+    term = 1  # Initialize term to be greater than epsilon
+    while abs(term) > epsilon:
+        term = (-1)**k / (np.sin(k * x) + 16 + k**2)
+        total_sum += term
+        k += 1
+    return total_sum
+
+x = 1  # Example value for x
+epsilon = 1e-6
+result = functional_series_sum(x, epsilon)
+
+print(f"Sum of the functional series for x={x}: {result:.6f}")
