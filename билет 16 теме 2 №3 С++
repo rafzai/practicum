@@ -1,0 +1,30 @@
+#include <iostream>
+#include <cmath>
+
+bool pointOnParabola(double a, double x0, double y0) {
+    return y0 * y0 == 4 * a * x0;
+}
+
+std::pair<double, double> focusOfParabola(double a) {
+    return {a, 0};
+}
+
+int main() {
+    double a = 2; // Parabola: y^2 = 8x
+    double x0 = 4, y0 = 4; // Point (4, 4)
+    
+    // Check if the point lies on the parabola
+    bool liesOnParabola = pointOnParabola(a, x0, y0);
+    
+    // Focus of the parabola
+    auto focus = focusOfParabola(a);
+    
+    // Distance from the directrix to the focus
+    double distanceDirectrixFocus = a;
+    
+    std::cout << "Does the point lie on the parabola? " << (liesOnParabola ? "Yes" : "No") << std::endl;
+    std::cout << "Coordinates of the focus: (" << focus.first << ", " << focus.second << ")" << std::endl;
+    std::cout << "Distance from the directrix to the focus: " << distanceDirectrixFocus << std::endl;
+    
+    return 0;
+}
