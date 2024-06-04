@@ -1,0 +1,29 @@
+import numpy as np
+
+def cramer_rule(a, b):
+    det_a = np.linalg.det(a)
+    if det_a == 0:
+        return None  # No unique solution exists
+    n = len(b)
+    x = []
+    for i in range(n):
+        temp_a = np.copy(a)
+        temp_a[:, i] = b
+        x_i = np.linalg.det(temp_a) / det_a
+        x.append(x_i)
+    return x
+
+# Coefficient matrix
+A = np.array([
+    [2, 0, 2],
+    [0, 2, 5],
+    [4, 2, 5]
+])
+
+# Constant terms
+B = np.array([1, 2, 0])
+
+X = cramer_rule(A, B)
+
+print("Solution using Cramer's rule:")
+print(X)
