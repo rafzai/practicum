@@ -1,0 +1,67 @@
+#include <iostream>
+#include <cmath>
+#include <functional>
+
+// Function definition
+double f(double x) {
+    return 2 / (1 + x) - 3 * sin(x);
+}
+
+// Bisection method
+double bisection(std::function<double(double)> func, double a, double b, double tol) {
+    double c;
+    while ((b - a) >= tol) {
+        c = (a + b) / 2;
+        if (func(c) == 0.0)
+            break;
+        else if (func(c) * func(a) < 0)
+            b = c;
+        else
+            a = c;
+    }
+    return c;
+}
+
+// Newton's method
+double newton(std::function<double(double)> func, std::function<double(double)> dfunc, double x0, double tol) {
+    double h = func(x0) / dfunc(x0);
+    while (fabs(h) >= tol) {
+        h = func(x0) / dfunc(x0);
+        x0 = x0 - h;
+    }
+    return x0;
+}
+
+// Secant method
+double secant(std::function<double(double)> func, double x0, double x1, double tol) {
+    double x2;
+    while (fabs(x1 - x0) >= tol) {
+        x2 = x0 - func(x0) * (x1 - x0) / (func(x1) - func(x0));
+        x0 = x1;
+        x1 = x2;
+    }
+    return x2;
+}
+
+// Derivative of f(x) for Newton's method
+double df(double x) {
+    return -2 / pow((1 + x), 2) - 3 * cos(x);
+}
+
+int main() {
+    double tol = 1e-6;
+
+    // Bisection method
+    double root_bisection = bisection(f, -1, 1, tol);
+    std::cout << "Root (Bisection): " << root_bisection << std::endl;
+
+    // Newton's method
+    double root_newton = newton(f, df, 0, tol);
+    std::cout << "Root (Newton): " << root_newton << std::endl;
+
+    // Secant method
+    double root_secant = secant(f, -1, 1, tol);
+    std::cout << "Root (Secant): " << root_secant << std::endl;
+
+    return 0;
+}
